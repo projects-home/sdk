@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans     
+           http://www.springframework.org/schema/beans/spring-beans-3.1.xsd 
+           http://code.alibabatech.com/schema/dubbo
+           http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+
+	<bean id="dubboConfig"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="order" value="1" />
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+	</bean>
+
+	<dubbo:application name="consumer-of-${dubboAppname}" />
+
+	<dubbo:registry protocol="${dubboRegistryProtocol}"
+		address="${dubboRegistryAddress}" file="${dubboRegistryFile}" />
+
+	<dubbo:consumer check="false" />
+
+	<dubbo:reference id="IdshmSV"
+		interface="com.ai.baas.dshm.api.dshmprocess.interfaces.IdshmSV" check="false" />
+	
+		<dubbo:reference id="iBalanceQuerySV"
+		interface="com.ai.baas.amc.api.virtualdeduct.interfaces.IBalanceQuerySV" check="false" />
+
+</beans>
