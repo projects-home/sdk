@@ -2,7 +2,7 @@ package com.x.sdk.component.lock.redislock;
 
 import com.google.common.collect.Maps;
 import com.x.sdk.exception.PaasRuntimeException;
-import com.x.sdk.mcs.interfaces.ICacheClient;
+import com.x.sdk.component.mcs.interfaces.ICacheClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

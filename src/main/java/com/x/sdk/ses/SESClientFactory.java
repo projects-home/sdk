@@ -2,8 +2,8 @@ package com.x.sdk.ses;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.x.sdk.ccs.base.ConfigLoader;
-import com.x.sdk.ccs.util.ConfigTool;
+import com.x.sdk.util.ConfigLoader;
+import com.x.sdk.util.ConfigTool;
 import com.x.sdk.exception.SDKException;
 import com.x.sdk.ses.constants.SESConsants;
 import com.x.sdk.util.StringUtil;

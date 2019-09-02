@@ -1,4 +1,4 @@
-package com.x.sdk.mcs.impl;
+package com.x.sdk.component.mcs.impl;
 
 public class CacheHelper {
 	

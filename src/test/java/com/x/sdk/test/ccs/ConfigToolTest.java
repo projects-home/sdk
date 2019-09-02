@@ -1,6 +1,6 @@
 package com.x.sdk.test.ccs;
 
-import com.x.sdk.ccs.util.ConfigTool;
+import com.x.sdk.util.ConfigTool;
 
 /**
  * Created by mayt on 2018/1/25.

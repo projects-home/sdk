@@ -7,9 +7,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.alibaba.fastjson.JSON;
-import com.x.sdk.ccs.base.ConfigLoader;
-import com.x.sdk.ccs.util.ConfigTool;
+import com.x.sdk.util.ConfigLoader;
+import com.x.sdk.util.ConfigTool;
 import com.x.sdk.component.mds.constants.MDSConsumerConstants;
 import com.x.sdk.component.mds.constants.MDSSenderConstants;
 import com.x.sdk.exception.SDKException;

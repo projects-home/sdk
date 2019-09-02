@@ -1,49 +1,52 @@
-package com.x.sdk.mcs.impl;
+package com.x.sdk.component.mcs.impl;
 
 //import com.ai.paas.ipaas.mcs.exception.CacheClientException;
 //import com.ai.paas.ipaas.mcs.interfaces.ICacheClient;
 //import com.ai.paas.ipaas.util.StringUtil;
 
-import com.x.sdk.mcs.exception.CacheClientException;
-import com.x.sdk.mcs.interfaces.ICacheClient;
+import com.x.sdk.component.mcs.interfaces.ICacheClient;
+import com.x.sdk.component.mcs.exception.CacheClientException;
 import com.x.sdk.util.StringUtil;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPubSub;
-import redis.clients.jedis.JedisSentinelPool;
+import redis.clients.jedis.Transaction;
 import redis.clients.jedis.exceptions.JedisConnectionException;
 import redis.clients.jedis.params.sortedset.ZAddParams;
 import redis.clients.jedis.params.sortedset.ZIncrByParams;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
-public class CacheSentinelClient implements ICacheClient {
+/**
+ * redis的客户端实现
+ */
+public class CacheClient implements ICacheClient {
 
 	private static transient final org.slf4j.Logger log = LoggerFactory.getLogger(CacheClient.class);
-	private JedisSentinelPool pool;
+	private JedisPool pool;
 	private GenericObjectPoolConfig config;
 	private static final int TIMEOUT_KEY = 15000;
 	private String host;
-	@SuppressWarnings("unused")
-	private final String preKey = CacheHelper.preKey();
 	private String pwd;
-	@SuppressWarnings("unused")
 	private boolean isRedisNeedAuth = false;
 
-	public CacheSentinelClient(GenericObjectPoolConfig config, String host) {
+	public CacheClient(GenericObjectPoolConfig config, String host) {
 		this.config = config;
 		this.host = host;
 		createPool();
 	}
 
-	public CacheSentinelClient(GenericObjectPoolConfig config, String host, String pwd) {
+	public CacheClient(GenericObjectPoolConfig config, String host, String pwd) {
 		this.config = config;
 		this.host = host;
-		if (!StringUtil.isBlank(pwd)) {
-			this.pwd = pwd;
+		this.pwd = pwd;
+		if (!StringUtil.isBlank(pwd))
 			isRedisNeedAuth = true;
-		}
 		createPool();
 	}
 
@@ -51,16 +54,19 @@ public class CacheSentinelClient implements ICacheClient {
 		if (!canConnection()) {
 			log.info("Create JedisPool Begin ...");
 			try {
-				if (config.getMaxWaitMillis() < 20000)
-					config.setMaxWaitMillis(20000);
-
-				Set<String> sentinels = new HashSet<String>(Arrays.asList(host.split(";|,")));
-				pool = new JedisSentinelPool("mymaster", sentinels, config, TIMEOUT_KEY, pwd);
+				String[] hostArr = host.split(":");
+				if (config.getMaxWaitMillis() < 15000)
+					config.setMaxWaitMillis(15000);
+				if (isRedisNeedAuth) {
+					pool = new JedisPool(config, hostArr[0], Integer.parseInt(hostArr[1]), TIMEOUT_KEY, pwd);
+				} else {
+					pool = new JedisPool(config, hostArr[0], Integer.parseInt(hostArr[1]), TIMEOUT_KEY);
+				}
 				if (canConnection())
 					log.info("Redis Server Info:" + host);
 				log.info("Create JedisPool Done ...");
 			} catch (Exception e) {
-				e.printStackTrace();
+				throw new CacheClientException(e);
 			}
 		}
 	}
@@ -305,7 +311,25 @@ public class CacheSentinelClient implements ICacheClient {
 
 	@Override
 	public Long expireAt(String key, long seconds) {
-		return expireAt(key.getBytes(), seconds);
+		Jedis jedis = null;
+		try {
+			jedis = getJedis();
+			return jedis.expireAt((key), seconds);
+		} catch (JedisConnectionException jedisConnectionException) {
+			createPool();
+			if (canConnection()) {
+				return expireAt(key, seconds);
+			} else {
+				log.error(jedisConnectionException.getMessage(), jedisConnectionException);
+				throw new CacheClientException(jedisConnectionException);
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			throw new CacheClientException(e);
+		} finally {
+			if (jedis != null)
+				returnResource(jedis);
+		}
 	}
 
 	public Long ttl(String key) {
@@ -2299,6 +2323,80 @@ public class CacheSentinelClient implements ICacheClient {
 	}
 
 	@Override
+	public String acquireLock(String lockName, long acquireTimeoutInMS, long lockTimeoutInMS) {
+		Jedis jedis = null;
+		String retIdentifier = null;
+		try {
+			jedis = getJedis();
+			String identifier = UUID.randomUUID().toString();
+			String lockKey = "lock:" + lockName;
+			int lockExpire = (int) (lockTimeoutInMS / 1000);
+
+			long end = System.currentTimeMillis() + acquireTimeoutInMS;
+			while (System.currentTimeMillis() < end) {
+				if (jedis.setnx(lockKey, identifier) == 1) {
+					jedis.expire(lockKey, lockExpire);
+					retIdentifier = identifier;
+				}
+				if (jedis.ttl(lockKey) == -1) {
+					jedis.expire(lockKey, lockExpire);
+				}
+
+				try {
+					Thread.sleep(10);
+				} catch (InterruptedException ie) {
+					Thread.currentThread().interrupt();
+				}
+			}
+		} catch (JedisConnectionException jedisConnectionException) {
+			log.error(jedisConnectionException.getMessage(), jedisConnectionException);
+			throw new CacheClientException(jedisConnectionException);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			throw new CacheClientException(e);
+		} finally {
+			if (jedis != null)
+				returnResource(jedis);
+		}
+
+		return retIdentifier;
+	}
+
+	@Override
+	public boolean releaseLock(String lockName, String identifier) {
+		Jedis jedis = null;
+		String lockKey = "lock:" + lockName;
+		boolean retFlag = false;
+		try {
+			jedis = getJedis();
+			while (true) {
+				jedis.watch(lockKey);
+				if (identifier.equals(jedis.get(lockKey))) {
+					Transaction trans = jedis.multi();
+					trans.del(lockKey);
+					List<Object> results = trans.exec();
+					if (results == null) {
+						continue;
+					}
+					retFlag = true;
+				}
+				jedis.unwatch();
+				break;
+			}
+		} catch (JedisConnectionException jedisConnectionException) {
+			log.error(jedisConnectionException.getMessage(), jedisConnectionException);
+			throw new CacheClientException(jedisConnectionException);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			throw new CacheClientException(e);
+		} finally {
+			if (jedis != null)
+				returnResource(jedis);
+		}
+		return retFlag;
+	}
+
+	@Override
 	public Long publish(final String channel, final String message) {
 		Jedis jedis = null;
 		try {
@@ -2365,16 +2463,6 @@ public class CacheSentinelClient implements ICacheClient {
 			if (jedis != null)
 				returnResource(jedis);
 		}
-	}
-
-	@Override
-	public String acquireLock(String lockName, long acquireTimeoutInMS, long lockTimeoutInMS) {
-		throw new CacheClientException("sentinel mode is no surpport lock.");
-	}
-
-	@Override
-	public boolean releaseLock(String lockName, String identifier) {
-		throw new CacheClientException("sentinel mode is no surpport lock.");
 	}
 
 	@Override
@@ -2494,12 +2582,5 @@ public class CacheSentinelClient implements ICacheClient {
 			if (jedis != null)
 				returnResource(jedis);
 		}
-	}
-
-	public static void main(String[] args) {
-		ICacheClient client = new CacheSentinelClient(new GenericObjectPoolConfig(),
-				"10.1.235.23:26379,10.1.235.22:26379,10.1.235.24:26379", "");
-		client.set("dxf", "1234567");
-		System.out.println(client.get("dxf"));
 	}
 }

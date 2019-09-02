@@ -1,9 +1,9 @@
 package com.x.sdk.component.ccs.client;
 
-import com.x.sdk.ccs.util.ConfigTool;
 import com.x.sdk.component.ccs.IConfigClient;
 import com.x.sdk.component.ccs.constants.ConfigException;
 import com.x.sdk.component.ccs.zookeeper.ConfigWatcher;
+import com.x.sdk.util.ConfigTool;
 
 import java.util.List;
 

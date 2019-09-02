@@ -1,6 +1,6 @@
 package com.x.sdk.component.mds;
 
-import com.x.sdk.mds.vo.BusinessMessage;
+import com.x.sdk.component.mds.vo.BusinessMessage;
 
 public interface IMessageSender {
 

@@ -1,11 +1,11 @@
 package com.x.sdk.component.idps;
 
 import com.alibaba.fastjson.JSON;
-import com.x.sdk.ccs.util.ConfigTool;
 import com.x.sdk.component.base.ComponentConfigLoader;
 import com.x.sdk.component.idps.constants.IDPSConsants;
 import com.x.sdk.component.mo.PaasConf;
 import com.x.sdk.exception.SDKException;
+import com.x.sdk.util.ConfigTool;
 import com.x.sdk.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,4 +1,4 @@
-package com.x.sdk.mds.vo;
+package com.x.sdk.component.mds.vo;
 
 import java.io.Serializable;
 import java.sql.Timestamp;

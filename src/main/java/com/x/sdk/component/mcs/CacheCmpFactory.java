@@ -1,8 +1,8 @@
-package com.x.sdk.mcs;
+package com.x.sdk.component.mcs;
 
-import com.x.sdk.mcs.impl.CacheClient;
-import com.x.sdk.mcs.impl.CacheClusterClient;
-import com.x.sdk.mcs.interfaces.ICacheClient;
+import com.x.sdk.component.mcs.impl.CacheClient;
+import com.x.sdk.component.mcs.impl.CacheClusterClient;
+import com.x.sdk.component.mcs.interfaces.ICacheClient;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 
 import java.io.IOException;

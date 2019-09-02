@@ -1,9 +1,9 @@
-package com.x.sdk.mcs;
+package com.x.sdk.component.mcs;
 
-import com.x.sdk.ccs.base.ConfigLoader;
-import com.x.sdk.ccs.util.ConfigTool;
+import com.x.sdk.util.ConfigLoader;
+import com.x.sdk.util.ConfigTool;
+import com.x.sdk.component.mcs.interfaces.ICacheClient;
 import com.x.sdk.exception.SDKException;
-import com.x.sdk.mcs.interfaces.ICacheClient;
 import com.x.sdk.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

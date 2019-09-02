@@ -1,4 +1,4 @@
-package com.x.sdk.mcs.interfaces;
+package com.x.sdk.component.mcs.interfaces;
 
 import redis.clients.jedis.JedisPubSub;
 import redis.clients.jedis.params.sortedset.ZAddParams;

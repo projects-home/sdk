@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import com.x.sdk.component.mds.IMessageSender;
 import com.x.sdk.component.mds.MDSClientFactory;
-import com.x.sdk.mds.vo.BusinessMessage;
+import com.x.sdk.component.mds.vo.BusinessMessage;
 
 public class IMessageSenderTest {
 	private static final Logger LOGGER = LoggerFactory.getLogger(IMessageSenderTest.class);

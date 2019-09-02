@@ -1,4 +1,4 @@
-package com.x.sdk.mcs.constants;
+package com.x.sdk.component.mcs.constants;
 
 public class MCSConstants {
 	/**

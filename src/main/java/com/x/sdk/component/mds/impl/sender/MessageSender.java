@@ -15,7 +15,7 @@ import com.alibaba.fastjson.JSON;
 import com.x.sdk.component.mds.IMessageSender;
 import com.x.sdk.component.mds.MessageClientException;
 import com.x.sdk.constant.PaaSConstant;
-import com.x.sdk.mds.vo.BusinessMessage;
+import com.x.sdk.component.mds.vo.BusinessMessage;
 import com.x.sdk.util.Assert;
 import com.x.sdk.util.DateUtil;
 

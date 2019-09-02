@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
 import com.x.base.exception.SystemException;
-import com.x.sdk.ccs.util.ConfigTool;
+import com.x.sdk.util.ConfigTool;
 
 /**
  * HDFS 工具类 Date: 2017年5月17日 <br>

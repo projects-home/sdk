@@ -2,7 +2,6 @@ package com.x.sdk.test.mds;
 
 import com.x.sdk.component.mds.IMessageSender;
 import com.x.sdk.component.mds.MDSClientFactory;
-import com.x.sdk.mds.MessageSender;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;

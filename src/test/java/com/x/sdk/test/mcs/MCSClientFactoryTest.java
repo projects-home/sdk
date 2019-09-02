@@ -1,7 +1,7 @@
 package com.x.sdk.test.mcs;
 
-import com.x.sdk.mcs.MCSClientFactory;
-import com.x.sdk.mcs.interfaces.ICacheClient;
+import com.x.sdk.component.mcs.MCSClientFactory;
+import com.x.sdk.component.mcs.interfaces.ICacheClient;
 
 /**
  * Created by mayt on 2018/1/23.

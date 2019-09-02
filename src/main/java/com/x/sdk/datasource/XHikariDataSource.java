@@ -1,6 +1,6 @@
 package com.x.sdk.datasource;
 
-import com.x.sdk.ccs.util.ConfigTool;
+import com.x.sdk.util.ConfigTool;
 import com.zaxxer.hikari.HikariDataSource;
 
 public class XHikariDataSource extends HikariDataSource {

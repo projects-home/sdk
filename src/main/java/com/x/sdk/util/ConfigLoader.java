@@ -1,9 +1,8 @@
-package com.x.sdk.ccs.base;
+package com.x.sdk.util;
 
 import com.alibaba.fastjson.JSON;
 import com.x.sdk.constant.CcsConstant;
 import com.x.sdk.exception.SDKException;
-import com.x.sdk.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

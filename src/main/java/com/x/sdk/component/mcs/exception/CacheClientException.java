@@ -1,4 +1,4 @@
-package com.x.sdk.mcs.exception;
+package com.x.sdk.component.mcs.exception;
 
 
 import com.x.sdk.exception.PaasRuntimeException;

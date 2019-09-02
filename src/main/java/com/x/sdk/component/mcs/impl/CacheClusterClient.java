@@ -1,10 +1,10 @@
-package com.x.sdk.mcs.impl;
+package com.x.sdk.component.mcs.impl;
 
 //import com.ai.paas.ipaas.mcs.exception.CacheClientException;
 //import com.ai.paas.ipaas.mcs.interfaces.ICacheClient;
 
-import com.x.sdk.mcs.exception.CacheClientException;
-import com.x.sdk.mcs.interfaces.ICacheClient;
+import com.x.sdk.component.mcs.exception.CacheClientException;
+import com.x.sdk.component.mcs.interfaces.ICacheClient;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.HostAndPort;

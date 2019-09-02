@@ -1,8 +1,8 @@
 package com.x.sdk.dss;
 
 import com.alibaba.fastjson.JSON;
-import com.x.sdk.ccs.base.ConfigLoader;
-import com.x.sdk.ccs.util.ConfigTool;
+import com.x.sdk.util.ConfigLoader;
+import com.x.sdk.util.ConfigTool;
 import com.x.sdk.dss.interfaces.IDSSClient;
 import com.x.sdk.exception.SDKException;
 import com.x.sdk.util.StringUtil;

@@ -6,8 +6,8 @@ import com.x.sdk.component.lock.redislock.RedisLockConstants;
 import com.x.sdk.component.lock.redislock.RedisMutexLock;
 import com.x.sdk.exception.PaasRuntimeException;
 import com.x.sdk.exception.SDKException;
-import com.x.sdk.mcs.MCSClientFactory;
-import com.x.sdk.mcs.interfaces.ICacheClient;
+import com.x.sdk.component.mcs.MCSClientFactory;
+import com.x.sdk.component.mcs.interfaces.ICacheClient;
 import com.x.sdk.util.StringUtil;
 
 public class RedisMutexLockFactory {
