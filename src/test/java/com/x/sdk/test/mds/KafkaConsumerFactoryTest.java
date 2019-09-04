@@ -7,8 +7,6 @@ import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.TopicPartition;
 
-import com.x.sdk.mds.KafkaConsumerFactory;
-
 public class KafkaConsumerFactoryTest {
 
 //    public static void main(String[] args) throws Exception {

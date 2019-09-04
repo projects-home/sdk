@@ -10,7 +10,7 @@ public class MDSSenderConstants {
 	 */
 	public static final String KEY_SERIALIZER_CLASS="key.serializer";
 	/**
-	 * serializer.class=org.apache.kafka.common.serialization.StringSerializer
+	 * value.serializer=org.apache.kafka.common.serialization.StringSerializer
 	 */
 	public static final String VALUE_SERIALIZER_CLASS="value.serializer";
 	/**

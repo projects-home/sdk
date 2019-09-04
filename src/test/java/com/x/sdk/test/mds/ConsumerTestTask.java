@@ -26,7 +26,7 @@ public class ConsumerTestTask {
         public MainThread() {
         }
         public void run() {
-            IMessageConsumer msgConsumer = MDSClientFactory.getConsumerClient("com.x.sdk.test.mds", new ProcessorHandler());
+            IMessageConsumer msgConsumer = MDSClientFactory.getConsumerClient("com.x.sdk.test.consumer.mds", new ProcessorHandler());
             msgConsumer.start();
             synchronized (ConsumerTestTask.class) {
                 while (true) {
@@ -42,6 +42,27 @@ public class ConsumerTestTask {
     }
 
     public static void main(String[] args) {
+
+//        {
+//            "MDS001":{
+//            "bootstrap.servers":"10.211.55.4:9092",
+//                    "key.deserializer":"org.apache.kafka.common.serialization.StringDeserializer",
+//                    "value.deserializer":"org.apache.kafka.common.serialization.ByteArrayDeserializer",
+//                    "group.id":"test",
+//                    "enable.auto.commit":"false",
+//                    "auto.commit.interval.ms":"1000",
+//                    "fetch.min.bytes":"1",
+//                    "fetch.max.wait.ms":"500",
+//                    "max.partition.fetch.bytes":"1048576",
+//                    "session.timeout.ms":"10000",
+//                    "auto.offset.reset":"latest",
+//                    "partition.assignment.strategy":"org.apache.kafka.clients.consumer.RoundRobinAssignor",
+//                    "max.poll.records":"500",
+//                    "mds.consumer.timeout":"100",
+//                    "mds.topic":"test"
+//        }
+//        }
+
         new ConsumerTestTask().init();
     }
 }

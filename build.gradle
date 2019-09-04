@@ -25,9 +25,9 @@ ext {
 }
 
 repositories { 
-	maven { 
-		url "http://localhost:8081/nexus/content/groups/public/"
-	} 
+	maven {
+        url "http://localhost:8081/nexus/content/groups/public/"
+    }
 }
 
 dependencies {

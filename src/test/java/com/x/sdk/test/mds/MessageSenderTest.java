@@ -38,6 +38,27 @@ public class MessageSenderTest {
 //			producer.close();
 //		}
 
+//		{
+//			"MDS001":{
+//			"bootstrap.servers":"10.211.55.4:9092",
+//					"key.serializer":"org.apache.kafka.common.serialization.StringSerializer",
+//					"serializer.class":"org.apache.kafka.common.serialization.StringSerializer",
+//					"key.serializer.class":"kafka.serializer.StringEncoder",
+//					"partitioner.class":"org.apache.kafka.clients.producer.internals.DefaultPartitioner",
+//					"acks":"1",
+//					"buffer.memory":"33554432",
+//					"delivery.timeout.ms":"120000",
+//					"linger.ms":"0",
+//					"request.timeout.ms":"3000",
+//					"retries":"3",
+//					"max.in.flight.requests.per.connection":"1",
+//					"max.request.size":"1048576",
+//					"batch.size":"16384",
+//					"maxProducer":"5",
+//					"mds.topic":"test"
+//			}
+//		}
+
 		IMessageSender messageSender = MDSClientFactory.getSenderClient("com.x.sdk.test.mds");
 		messageSender.send("this is a sdk build msg");
 	}
