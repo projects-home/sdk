@@ -9,7 +9,7 @@ public interface IImageClient {
 	/**
 	 * 上传图片
 	 * 
-	 * @param image图片字节数组
+	 * @param image 图片字节数组
 	 * @param name
 	 *            文件名（备注）
 	 * @return 图片id
@@ -22,7 +22,7 @@ public interface IImageClient {
 	 * @param image
 	 * @param name
 	 * @param minWidth
-	 * @param minHeigt
+	 * @param minHeight
 	 * @return
 	 */
 	public String upLoadImage(byte[] image, String name, int minWidth, int minHeight);
